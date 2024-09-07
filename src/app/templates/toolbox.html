@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+    <title>farm</title>
+    <style>
+        @font-face {
+            font-family: 'Source Han Sans Simplified C';
+            src: url("{{ url_for('static', filename='font/Source-Han-Sans-CN-Regular.woff') }}") format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Source Han Sans Simplified C', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Magic Box</h1>
+        <div class="flex bg-white shadow-lg rounded-lg overflow-hidden">
+            <!-- 左侧分类导航栏 -->
+            <div class="w-1/8 border-r">
+                <nav class="flex flex-col">
+                    <button
+                        class="py-4 px-6 text-left border-b hover:bg-blue-100 focus:outline-none transition duration-300"
+                        onclick="showCategory('devTools')">开发工具</button>
+                    <button
+                        class="py-4 px-6 text-left border-b hover:bg-blue-100 focus:outline-none transition duration-300"
+                        onclick="showCategory('codecTools')">编解码</button>
+                    <button class="py-4 px-6 text-left hover:bg-blue-100 focus:outline-none transition duration-300"
+                        onclick="showCategory('bizTools')">业务工具</button>
+                </nav>
+            </div>
+            <!-- 右侧工具内容 -->
+            <div class="w-7/8">
+                <!-- 开发工具 -->
+                <div id="devTools" class="pl-3">
+                    <div class="border-b mb-4">
+                        <nav class="flex">
+                            <div class="inline-flex">
+                                <button
+                                    class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool-timestamp')">时间戳</button>
+                                <button
+                                    class="py-4 px-6 text-center hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool-jwt')">JWT</button>
+                            </div>
+                        </nav>
+                    </div>
+                    {% include 'tools/timestamp.html' %}
+                    {% include 'tools/jwt.html' %}
+                </div>
+                <!-- 编解码工具 -->
+                <div id="codecTools" class="pl-3 hidden">
+                    <div class="border-b mb-4">
+                        <nav class="flex">
+                            <div class="inline-flex">
+                                <button
+                                    class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool4')">工具4</button>
+                                <button
+                                    class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool5')">工具5</button>
+                                <button
+                                    class="py-4 px-6 text-center hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool6')">工具6</button>
+                            </div>
+                        </nav>
+                    </div>
+                    <div id="tool4" class="p-6">
+                        <h2 class="text-2xl font-semibold mb-4 text-blue-600">工具4</h2>
+                        <p class="text-gray-700">这里是工具4的内容。</p>
+                    </div>
+                    <div id="tool5" class="p-6 hidden">
+                        <h2 class="text-2xl font-semibold mb-4 text-blue-600">工具5</h2>
+                        <p class="text-gray-700">这里是工具5的内容。</p>
+                    </div>
+                    <div id="tool6" class="p-6 hidden">
+                        <h2 class="text-2xl font-semibold mb-4 text-blue-600">工具6</h2>
+                        <p class="text-gray-700">这里是工具6的内容。</p>
+                    </div>
+                </div>
+                <!-- 业务工具 -->
+                <div id="bizTools" class="pl-3 hidden">
+                    <div class="border-b mb-4">
+                        <nav class="flex">
+                            <div class="inline-flex">
+                                <button
+                                    class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool7')">工具7</button>
+                                <button
+                                    class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool8')">工具8</button>
+                                <button
+                                    class="py-4 px-6 text-center hover:bg-blue-100 focus:outline-none transition duration-300"
+                                    onclick="showTool('tool9')">工具9</button>
+                            </div>
+                        </nav>
+                    </div>
+                    <div id="tool7" class="p-6">
+                        <h2 class="text-2xl font-semibold mb-4 text-blue-600">工具7</h2>
+                        <p class="text-gray-700">这里是工具7的内容。</p>
+                    </div>
+                    <div id="tool8" class="p-6 hidden">
+                        <h2 class="text-2xl font-semibold mb-4 text-blue-600">工具8</h2>
+                        <p class="text-gray-700">这里是工具8的内容。</p>
+                    </div>
+                    <div id="tool9" class="p-6 hidden">
+                        <h2 class="text-2xl font-semibold mb-4 text-blue-600">工具9</h2>
+                        <p class="text-gray-700">这里是工具9的内容。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showCategory(categoryId) {
+            document.getElementById('devTools').classList.add('hidden');
+            document.getElementById('codecTools').classList.add('hidden');
+            document.getElementById('bizTools').classList.add('hidden');
+            document.getElementById(categoryId).classList.remove('hidden');
+        }
+
+        function showTool(toolId) {
+            const tools = document.querySelectorAll('[id^="tool"]');
+            tools.forEach(tool => tool.classList.add('hidden'));
+            document.getElementById(toolId).classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>

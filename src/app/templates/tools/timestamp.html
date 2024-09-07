@@ -1,0 +1,60 @@
+<div id="tool-timestamp" class="p-6 pt-3">
+    <h2 class="text-2xl font-semibold mb-4 text-blue-600">时间戳工具</h2>
+    <!-- 时间戳工具 -->
+    <div class="mb-4">
+        <label for="timestamp" class="block text-gray-700">时间戳:</label>
+        <input type="text" id="timestamp" class="border rounded p-2 w-full" placeholder="输入时间戳" onkeydown="if(event.key === 'Enter') convertToBeijingTime()">
+        <button onclick="convertToBeijingTime()" class="mt-2 bg-blue-500 text-white py-2 px-4 rounded-full">转换为北京时间</button>
+    </div>
+    <div class="mb-4">
+        <label for="beijingTime" class="block text-gray-700">北京时间:</label>
+        <input type="text" id="beijingTime" class="border rounded p-2 w-full" placeholder="输入北京时间 (YYYY-MM-DD HH:MM:SS)" onkeydown="if(event.key === 'Enter') convertToTimestamp()">
+        <button onclick="convertToTimestamp()" class="mt-2 bg-blue-500 text-white py-2 px-4 rounded-full">转换为时间戳</button>
+    </div>
+    <div id="result" class="mt-4 text-gray-700" onclick="copyToClipboard(event)" style="cursor: pointer;"></div>
+    <div id="copy-feedback" class="hidden text-green-500 mt-2">✔ 复制成功</div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 显示当前时间戳（毫秒级）
+        const currentTimestamp = Date.now();
+        document.getElementById('result').innerText = `当前时间戳: ${currentTimestamp}`;
+    });
+
+    function convertToBeijingTime() {
+        const timestampInput = document.getElementById('timestamp').value;
+        const timestamp = parseInt(timestampInput, 10);
+        if (isNaN(timestamp)) {
+            document.getElementById('result').innerText = '请输入有效的时间戳';
+            return;
+        }
+        const date = new Date(timestamp);
+        const beijingTime = date.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+        document.getElementById('result').innerText = `北京时间: ${beijingTime}`;
+    }
+
+    function convertToTimestamp() {
+        const beijingTimeInput = document.getElementById('beijingTime').value;
+        const date = new Date(beijingTimeInput.replace(/-/g, '/'));
+        if (isNaN(date.getTime())) {
+            document.getElementById('result').innerText = '请输入有效的北京时间';
+            return;
+        }
+        const timestamp = date.getTime();
+        document.getElementById('result').innerText = `时间戳: ${timestamp}`;
+    }
+
+    function copyToClipboard(event) {
+        const text = event.target.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const feedback = document.getElementById('copy-feedback');
+            feedback.classList.remove('hidden');
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 2000);
+        }).catch(err => {
+            console.error('复制失败: ', err);
+        });
+    }
+</script>

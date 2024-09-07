@@ -2,3 +2,4 @@ __pycache__
 .vscode
 .temp
 node_modules
+src/app/static/css/output.css

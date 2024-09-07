@@ -1,0 +1,20 @@
+{% extends "nav.html" %}
+
+{% block title %}Magic Box - {{ category.name }}{% endblock %}
+
+{% block content %}
+<div id="{{ category.id }}" class="pl-3">
+    <div class="border-b">
+        <nav class="flex flex-row">
+            <div class="inline-flex">
+                {% for tool in tools %}
+                <button
+                    class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
+                    onclick="">{{ tool.name }}</button>
+                {% endfor %}
+            </div>
+        </nav>
+    </div>
+    {% include 'tools/timestamp.html' %}
+</div>
+{% endblock %}

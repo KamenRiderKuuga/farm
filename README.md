@@ -19,7 +19,7 @@ npx tailwindcss -i ./src/app/static/css/input.css -o ./src/app/static/css/output
 
 **后端**
 
-Python3，然后，安装Flask：
+Python 3.9+，然后，安装Flask：
 
 ```bash
 pip install Flask

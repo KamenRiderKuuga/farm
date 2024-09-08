@@ -8,13 +8,73 @@
         <nav class="flex flex-row">
             <div class="inline-flex">
                 {% for tool in tools %}
+                <!-- <a href="{{ url_for('toolbox.tool_page', category_id=category.id, tool_id=tool.id) }}"> -->
                 <button
                     class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
-                    onclick="">{{ tool.name }}</button>
+                    onclick="loadToolContent('{{ category.id }}', '{{ tool.id }}')">
+                    {{ tool.name }}</button>
                 {% endfor %}
+                <!-- </a> -->
             </div>
         </nav>
     </div>
-    {% include 'tools/timestamp.html' %}
+    <div id="tool-content">
+        {% include 'tools/' + category.path + '/' + tool.id %}
+    </div>
 </div>
+<script>
+    function loadToolContent(categoryId, toolId, nopush = false) {
+        // Get current URL parameters
+        const currentUrl = new URL(window.location.href);
+        const currentCategoryId = currentUrl.pathname.split('/')[2];
+        const currentToolId = currentUrl.pathname.split('/')[3];
+
+        // Check if the new state is the same as the current state
+        if (currentCategoryId === categoryId && currentToolId === toolId) {
+            nopush = true;
+        }
+
+        const url = new URL('{{ url_for("toolbox.tool_page_content") }}', window.location.origin);
+        url.searchParams.append('category_id', categoryId);
+        if (toolId) {
+            url.searchParams.append('tool_id', toolId);
+        }
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('tool-content').innerHTML = html;
+                // Update the URL without reloading the page
+                let newUrl = `/toolbox/${categoryId}`;
+                if (toolId) {
+                    newUrl += `/${toolId}`;
+                    if (!nopush) {
+                        history.pushState({ categoryId, toolId }, '', newUrl);
+                    }
+                }
+                else {
+                    if (!nopush) {
+                        history.pushState({ categoryId }, '', newUrl);
+                    }
+                }
+
+            })
+            .catch(error => {
+                console.error('Error loading tool content:', error);
+            });
+    }
+
+    // Handle back/forward navigation
+    window.addEventListener('popstate', function (event) {
+        if (event.state) {
+            console.log('popstate:', event.state);
+            loadToolContent(event.state.categoryId, event.state.toolId, true);
+        }
+    });
+</script>
 {% endblock %}

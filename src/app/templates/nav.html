@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block nav %}
-    {% for category in categories %}
-        <button
-            class="py-4 px-6 text-left border-b hover:bg-blue-100 focus:outline-none transition duration-300"
-            onclick="">{{ category.name }}</button>
-    {% endfor %}
+{% for category in categories %}
+<button class="py-4 px-6 text-left border-b hover:bg-blue-100 focus:outline-none transition duration-300"
+    onclick="loadToolContent('{{ category.id }}')">{{ category.name }}</button>
+{% endfor %}
+
 {% endblock %}

@@ -1,0 +1,6 @@
+{
+    "name": "编解码",
+    "tools": {
+        "base64.html": "base64"
+    }
+}

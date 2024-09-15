@@ -3,26 +3,39 @@
 {% block title %}Magic Box - {{ category.name }}{% endblock %}
 
 {% block content %}
-<div id="{{ category.id }}" class="pl-3">
-    <div class="border-b">
-        <nav class="flex flex-row">
-            <div class="inline-flex">
-                {% for tool in tools %}
-                <!-- <a href="{{ url_for('toolbox.tool_page', category_id=category.id, tool_id=tool.id) }}"> -->
-                <button
-                    class="py-4 px-6 text-center border-r hover:bg-blue-100 focus:outline-none transition duration-300"
-                    onclick="loadToolContent('{{ category.id }}', '{{ tool.id }}')">
-                    {{ tool.name }}</button>
-                {% endfor %}
-                <!-- </a> -->
-            </div>
-        </nav>
+<div class="pl-3">
+    <div id="navbar" class="border-b">
+        {% include 'navbar.html' %}
     </div>
+
     <div id="tool-content">
         {% include 'tools/' + category.path + '/' + tool.id %}
     </div>
 </div>
 <script>
+    function loadNavBarContent(categoryId) {
+        const currentUrl = new URL(window.location.href);
+        const currentCategoryId = currentUrl.pathname.split('/')[2];
+        if (currentCategoryId !== categoryId) {
+            const url = new URL('{{ url_for("toolbox.navbar_content") }}', window.location.origin);
+            url.searchParams.append('category_id', categoryId);
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    document.getElementById('navbar').innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading narbar content:', error);
+                });
+        }
+        loadToolContent(categoryId)
+    }
+
     function loadToolContent(categoryId, toolId, nopush = false) {
         // Get current URL parameters
         const currentUrl = new URL(window.location.href);

@@ -44,3 +44,12 @@ def tool_page_content():
         tool_id = category.tools[0].id
     # 渲染工具内容
     return render_template(f"tools/{category.path}/{tool_id}")
+
+@bp.route("/toolbox/navbar-content")
+def navbar_content():
+    category_id = request.args.get("category_id")
+    category = next((cat for cat in Config.TOOLS if cat.id == category_id), None)
+    if not category:
+        return "Category not found", 404
+    # 渲染navbar内容
+    return render_template(f"navbar.html", tools = category.tools, category = category)

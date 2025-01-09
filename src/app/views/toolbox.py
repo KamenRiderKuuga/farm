@@ -43,7 +43,7 @@ def tool_page_content():
     if not tool_id or tool_id == "undefined":
         tool_id = category.tools[0].id
     # 渲染工具内容
-    return render_template(f"tools/{category.path}/{tool_id}")
+    return render_template(f"tools/{category.path}/{tool_id}", hidden = False)
 
 @bp.route("/toolbox/navbar-content")
 def navbar_content():

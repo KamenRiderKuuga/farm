@@ -3,20 +3,32 @@
     <!-- 时间戳工具 -->
     <div class="mb-4">
         <label for="timestamp" class="block text-gray-700">时间戳:</label>
-        <input type="text" id="timestamp" class="border rounded p-2 w-full" placeholder="输入时间戳" onkeydown="if(event.key === 'Enter') convertToBeijingTime()">
-        <button onclick="convertToBeijingTime()" class="mt-2 bg-blue-500 text-white py-2 px-4 rounded-full">转换为北京时间</button>
+        <div>
+            <input type="text" id="timestamp" class="border rounded p-2 w-2/5" placeholder="输入时间戳"
+                onkeydown="if(event.key === 'Enter') convertToBeijingTime()">
+        </div>
+        <div>
+            <button onclick="convertToBeijingTime()"
+                class="mt-2 bg-blue-500 text-white py-2 px-4 rounded-full">转换为北京时间</button>
+        </div>
     </div>
     <div class="mb-4">
         <label for="beijingTime" class="block text-gray-700">北京时间:</label>
-        <input type="text" id="beijingTime" class="border rounded p-2 w-full" placeholder="输入北京时间 (YYYY-MM-DD HH:MM:SS)" onkeydown="if(event.key === 'Enter') convertToTimestamp()">
-        <button onclick="convertToTimestamp()" class="mt-2 bg-blue-500 text-white py-2 px-4 rounded-full">转换为时间戳</button>
+        <div>
+            <input type="text" id="beijingTime" class="border rounded p-2 w-2/5"
+                placeholder="输入北京时间 (YYYY-MM-DD HH:MM:SS)" onkeydown="if(event.key === 'Enter') convertToTimestamp()">
+        </div>
+        <div>
+            <button onclick="convertToTimestamp()"
+                class="mt-2 bg-blue-500 text-white py-2 px-4 rounded-full">转换为时间戳</button>
+        </div>
     </div>
     <div id="result" class="mt-4 text-gray-700" onclick="copyToClipboard(event)" style="cursor: pointer;"></div>
     <div id="copy-feedback" class="hidden text-green-500 mt-2">✔ 复制成功</div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         // 显示当前时间戳（毫秒级）
         const currentTimestamp = Date.now();
         document.getElementById('result').innerText = `当前时间戳: ${currentTimestamp}`;
